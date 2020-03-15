@@ -63,7 +63,7 @@ void* func_1(void* threadp)
 		{
 //			printf("%d\n", count);
 //			count++;
-			counter();
+			count = counter();
 		}
 	}
 	printf("Last of T1: %d\n", count);	//print final value of variable as seen by thread1 when done
@@ -103,7 +103,7 @@ void* func_2(void* threadp)
 		{
 //			printf("%d\n", count);
 //			count++;
-			counter();
+			count = counter();
 		}
 	}
 	printf("Last of T2: %d\n", count);		//print final value of variable as seen by thread1 when done
@@ -157,7 +157,9 @@ void thread_core_set(void)
  * If count is kept static to function counter(), latency in returning value of count to calling thread 
  * deteriorates performance even more than from what is observed.
  */
-void counter()
+int counter()
 {
+	static int count;
 	count++;
+	return count;
 }

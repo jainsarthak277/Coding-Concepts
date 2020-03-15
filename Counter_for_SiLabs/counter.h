@@ -11,13 +11,13 @@
 				 	exit(1);\
 				}
 
-static int count = 0;
+int count = 0;
 FILE* fp;
 
 pthread_barrier_t bar;
 pthread_attr_t rt_sched_attr[NUM_THREADS];
 
-void counter(void);
+int counter(void);
 void* func_1(void*); 
 void* func_2(void*); 
 void thread_core_set(void);
