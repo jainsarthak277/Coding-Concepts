@@ -76,6 +76,29 @@ Node* reverse_list(Node* head)
 }
 
 
+Node* convert_odd_even(Node* head)
+{
+	if((head == NULL) || (head->next == NULL) || (head->next->next == NULL))
+	{
+		return head;
+	}
+
+	Node* odd = head->next;	
+	Node* even = odd->next;	
+	Node* even_backup = even;
+	while((even != NULL) && (even->next != NULL))
+	{
+		odd->next = odd->next->next;
+		odd = odd->next;
+		even->next = even->next->next;
+		even = even->next;
+	}
+	odd->next = even_backup;
+	printf("\nLinked List converted to the order odd->even\n");
+	return head;
+}
+
+
 void print_list(Node* head)
 {
 	int num_nodes = 0;
@@ -105,14 +128,20 @@ int main()
 	{
 		cerror("create_list failed; head is NULL");
 	}
-
 	print_list(head);
+
 	head = reverse_list(head);
 	if(head == NULL)
 	{
 		cerror("reverse_list failed; head is NULL");
 	}
+	print_list(head);
 
+	head = convert_odd_even(head);
+	if(head == NULL)
+	{
+		cerror("convert_odd_even failed; head is NULL");
+	}
 	print_list(head);
 
 	return 0;

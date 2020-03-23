@@ -19,4 +19,5 @@ int read_input(int**);
 
 Node* create_list(int, int*);
 Node* reverse_list(Node*);
+Node* convert_odd_even(Node*);
 void print_list(Node*);
