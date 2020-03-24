@@ -1,0 +1,50 @@
+top
+htop
+ifconfig
+history
+size 
+df
+du
+dd
+whoami, whatis
+chmod
+chown
+diff, diff3
+cmp
+sort
+shuf
+exit
+free
+uname
+w, users
+ulimit
+date
+kill
+last
+lscpu
+lsusb
+netcat
+netstat
+nice
+ps
+sleep, shutdown
+uptime
+crontab, cron
+expect
+perf
+reboot
+source
+touch
+useradd, userdel, usermod
+mount
+
+
+********************************
+rev
+factor
+fortune
+yes
+cmatrix
+Fork bomb: :(){ :|:& };:
+pi 10
+xeyes
