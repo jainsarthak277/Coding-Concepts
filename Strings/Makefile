@@ -5,9 +5,9 @@ CC = gcc
 
 CFLAGS = -g -O0 -Wall
 
-strcpy: $(obj)
-	$(CC) $(CFLAGS) -o strcpy $(obj)
+strings: $(obj)
+	$(CC) $(CFLAGS) -o strings $(obj)
 
 .PHONY: clean
 clean:
-	rm -f $(obj) strcpy
+	rm -f $(obj) strings
