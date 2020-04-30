@@ -1,6 +1,8 @@
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 
+#define WORD_NUMBER	(4)
 
 // returns zero on success, returns -1 on error.
 int str_copy(char *dest, const char *src) 
@@ -62,6 +64,65 @@ int stringString(char* haystack, char* needle)
 }
 
 
+void parse_parm(const char* arguments, int argument_number, char** output)
+{
+	char* ptr = (char*)arguments;
+	int word_count = 0;
+	char* tmp;
+	while(*ptr != 0)
+	{
+		if(argument_number != 0)
+		{
+			if(*ptr == 44)
+			{
+				argument_number--;
+			}
+			ptr++;
+		}
+		else 
+		{
+			tmp = ptr;
+			while(*tmp != 44)
+			{
+				word_count++;
+				tmp++;
+			}
+			break;
+		}
+	}
+	*output = (char*)malloc(sizeof(char)*(word_count+1));
+	memcpy((void*)*output, (const void*)ptr, word_count);
+	(*output)[word_count] = 0;
+}
+
+
+char* char_escape(char* input) 
+{
+	size_t length = strlen(input);
+	size_t retLen=0;
+	char* retStr = (char*)malloc(sizeof(char)*2*length);
+	while(*input != 0)
+	{
+		if((*input == 60) || (*input == 62) || (*input == 92))
+		{
+			*retStr = 92;
+			retStr++;
+			retLen++;
+		}
+		*retStr = *input;
+		
+		retStr++;
+		input++;
+		retLen++;
+
+//		printf("%c", *retStr);
+	}
+	*retStr = 0;
+	retStr-=retLen;
+	return retStr;
+}
+
+
 int main() 
 {
 	char s1[] = "hello";
@@ -73,7 +134,16 @@ int main()
 	if (str_copy(s3, s1) == 0)
 		printf("s3: %s\n", s3);
 
-	printf("Index of repeating string is %d\n", stringString("mississippi", "ssis"));
+	printf("\nIndex of repeating string is %d\n", stringString("mississippi", "ssis"));
+
+	const char* s4 = (const char*)malloc(100);
+	s4 = "one,two,three,four,five";
+	char* word;
+	parse_parm(s4, WORD_NUMBER, &word);
+	printf("\nWord no. %d is %s\n", WORD_NUMBER+1, word);
+
+	char* s5 = "<hello> world";
+	printf("\nEscaped string is %s\n", char_escape(s5));
 
 	return 0;
 }
