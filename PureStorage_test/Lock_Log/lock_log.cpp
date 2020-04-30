@@ -8,14 +8,19 @@
 #include <boost/algorithm/string.hpp>
 using namespace std;
 
-int check_log_history(list<string> locks)
+enum lock_error {SUCCESS, WRONG_RELEASE, DOUBLE_ACQUIRE, NO_ACQUIRED_LOCK, DANGLING_LOCK};
+
+int check_log_history(vector<string> locks)
 {
+	lock_error error = SUCCESS;
 	unordered_set<string> set;
 	stack<string> stack;
 	char* copy = (char*)malloc(20);
+	int order=0;
 
-	for(list<string>::iterator itr = locks.begin(); itr != locks.end(); itr++)
+	for(vector<string>::iterator itr = locks.begin(); itr != locks.end(); itr++)
 	{
+		order++;
 		strcpy(copy, (*itr).c_str());
 		vector<string> result;
 		boost::split(result, copy, boost::is_any_of(" "));
@@ -31,7 +36,9 @@ int check_log_history(list<string> locks)
 			}
 			else 
 			{
-				return -2;
+				error = DOUBLE_ACQUIRE;
+				return error;
+//				return order;
 			}
 		}
 		else
@@ -41,7 +48,9 @@ int check_log_history(list<string> locks)
 			{
 				if(result[1] != stack.top())
 				{
-					return -1;
+					error = WRONG_RELEASE;
+					return error;
+//					return order;
 				}
 				else
 				{
@@ -51,22 +60,26 @@ int check_log_history(list<string> locks)
 			}
 			else 
 			{
-				return -3;
+				error = NO_ACQUIRED_LOCK;
+				return error;
+//				return order;
 			}
 		}
 	}
 
 	if(!set.empty())
 	{
-		return -4;
+		error = DANGLING_LOCK;
+		return error;
+//		return locks.size();
 	}
 
-	return 0;
+	return error;
 }
 
 int main() 
 {
-	list<string> locks;
+	vector<string> locks;
 	locks.push_back("ACQUIRE 123");
 	locks.push_back("ACQUIRE 456");
 	locks.push_back("ACQUIRE 789");
@@ -75,6 +88,7 @@ int main()
 	locks.push_back("RELEASE 123");
 
 	int retVal = check_log_history(locks);
-	cout << "Function returned " << retVal << endl;
+	cout << "Lock log status: " << retVal << endl;
+//	cout << "Error in sequence at step " << retVal << endl;
 	return 0;
 }
