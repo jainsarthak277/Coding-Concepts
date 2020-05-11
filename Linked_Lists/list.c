@@ -152,3 +152,19 @@ int removeNodes(Node** head, int x)
 	}
 	return removed;
 }
+
+
+int findMiddle(Node* head)
+{
+	if((head == NULL) || (head->next == NULL))
+	{
+		return -1;
+	}
+	Node* slow = head, *fast = head;
+	while((fast != NULL) && (fast->next != NULL))
+	{
+		slow = slow->next;
+		fast = fast->next->next;
+	}
+	return slow->data;
+}

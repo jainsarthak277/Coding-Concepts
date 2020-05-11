@@ -81,5 +81,12 @@ int main()
 	print_list(remove_head);
 
 
+	int middle = findMiddle(head);
+	if(middle == -1)
+	{
+		cerror("findMiddle failed; head is NULL");
+	}
+	printf("\nMiddle node of Linked List has value: %d\n", middle);
+
 	return 0;
 }

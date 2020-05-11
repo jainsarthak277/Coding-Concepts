@@ -28,3 +28,4 @@ Node* reverse_list(Node*);
 Node* convert_odd_even(Node*);
 Node* merge_alternate(Node*, Node*);
 int removeNodes(Node**, int);
+int findMiddle(Node*);
