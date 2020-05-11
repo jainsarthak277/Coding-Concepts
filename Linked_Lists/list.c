@@ -1,74 +1,11 @@
 /*
- * Program to demonstrate basic Linked List with create, 
- * insert, delete and display functions.
+ * Program to demonstrate Linked List functionalities like 
+ * reversal, odd-even conversion and alternate merge.
  *
  * Scope for a lot more functions.
  */
 
 #include "list.h"
-
-
-int read_input(int** arr)
-{
-	char c;
-	int file_size = 0; 
-	FILE* fp = fopen("init_list.txt", "r+");
-	for(c=getc(fp); c!=EOF; c=getc(fp))
-	{
-		if(c == '\n')
-		{
-			file_size++;
-		}
-	}
-	fseek(fp, 0, SEEK_SET);
-	
-	*arr = (int*)malloc(sizeof(int) * file_size);
-	for(int i=0; i<file_size; i++)
-	{
-		fscanf(fp, "%d", &*(*arr+i));
-	}
-	fclose(fp);
-	fp = NULL;
-	return file_size;
-}
-
-
-Node* create_list(int num_nodes, int* array)
-{
-	Node* head = (Node*)malloc(sizeof(Node));
-	Node* temp = head;
-
-	for(int i=0; i<num_nodes; i++)
-	{
-		Node* newNode = (Node*)malloc(sizeof(Node));
-		newNode->data = array[i];
-		temp->next = newNode;
-		temp = newNode;
-		newNode->next = NULL;
-	}
-	
-	return head;
-}
-
-
-Node* copy_list(Node* head, int num_nodes)
-{
-	Node* head_copy = (Node*)malloc(sizeof(Node));
-	Node* traverse = head_copy;
-	head = head->next;
-	for(int i=0; i<num_nodes; i++)
-	{
-		Node* newNode = (Node*)malloc(sizeof(Node));
-		newNode->data = head->data;
-		traverse->next = newNode;
-
-		traverse = newNode;
-		newNode->next = NULL;
-		head = head->next;
-	}
-	printf("\nLinked List copied\n");
-	return head_copy;
-}
 
 
 Node* reverse_list(Node* head)
@@ -93,6 +30,14 @@ Node* reverse_list(Node* head)
 }
 
 
+/**
+ * @brief converts linked list into a list arranged as all odd-indexed nodes followed by all even-indexed nodes
+ * Eg. Original list: 10->20->30->40->50; Converted list: 10->30->50->20->40.
+ *
+ * @param head
+ *
+ * @return 
+ */
 Node* convert_odd_even(Node* head)
 {
 	if((head == NULL) || (head->next == NULL) || (head->next->next == NULL))
@@ -115,6 +60,15 @@ Node* convert_odd_even(Node* head)
 	return head;
 }
 
+
+/**
+ * @brief Merges two linked lists in an alternate fashion ie. Node1 of listA followed by Node1 of listB followed by Node2 of listA and so on.
+ *
+ * @param headA
+ * @param headB
+ *
+ * @return 
+ */
 Node* merge_alternate(Node* headA, Node* headB)
 {
 	if(headA == NULL || headA->next == NULL)
@@ -158,79 +112,43 @@ Node* merge_alternate(Node* headA, Node* headB)
 	return head_ref;
 }
 
-
-void print_list(Node* head)
+int removeNodes(Node** head, int x)
 {
-	int num_nodes = 0;
-	Node* temp;
-	temp = head;
-	printf("Linked List is: \n");
-	while(temp->next != NULL)
+	Node* temp = *head;
+	Node* prev = *head;
+	int removed = 0;
+	if(*head == NULL)
 	{
+		return 0;
+	}
+	temp = temp->next;
+	while((temp != NULL) && (!(temp->data <= x)))
+	{
+//		printf("Temp value loop : %d\n", temp->data);
+
+		*head = temp->next;
 		temp = temp->next;
-		num_nodes++;
-		printf("Node %d: Data %d\n", num_nodes, temp->data);
+		prev = *head;
+		removed++;
 	}
-}
-
-
-int main()
-{
-	int* list_data = NULL;
-	int num_nodes = read_input(&list_data);
-	if(num_nodes < 1)
+	if(temp == NULL)
 	{
-		cerror("read_input failed; file read has no contents")
+		return removed;
 	}
-	
-
-	Node* head = create_list(num_nodes, list_data);
-	if(head == NULL)
+	temp = temp->next;
+	while(temp != NULL)
 	{
-		cerror("create_list failed; head is NULL");
+		if(x < temp->data)
+		{
+//			printf("Temp value : %d\n", temp->data);
+			prev->next = temp->next;
+			removed++;
+		}
+		else
+		{
+			prev = temp;
+		}
+		temp = temp->next;
 	}
-	print_list(head);
-
-
-	Node* head_rev = copy_list(head, num_nodes);
-	if(head_rev == NULL)
-	{
-		cerror("copy_list failed; head is NULL");
-	}
-	head_rev = reverse_list(head_rev);
-	if(head_rev == NULL)
-	{
-		cerror("reverse_list failed; head is NULL");
-	}
-	print_list(head_rev);
-
-
-	Node* head_odd_even = copy_list(head, num_nodes);
-	if(head_odd_even == NULL)
-	{
-		cerror("copy_list failed; head is NULL");
-	}
-	head_odd_even = convert_odd_even(head_odd_even);
-	if(head_odd_even == NULL)
-	{
-		cerror("convert_odd_even failed; head is NULL");
-	}
-	print_list(head_odd_even);
-
-
-	Node* head_A = copy_list(head, num_nodes);
-	Node* head_B = copy_list(head_rev, num_nodes);
-	if((head_A == NULL) || (head_B == NULL))
-	{
-		cerror("copy_list failed; head is NULL");
-	}
-	Node* head_merge = merge_alternate(head_A, head_B);
-	if(head_merge == NULL)
-	{
-		cerror("alternate merge failed; head is NULL");
-	}
-	print_list(head_merge);
-
-
-	return 0;
+	return removed;
 }
