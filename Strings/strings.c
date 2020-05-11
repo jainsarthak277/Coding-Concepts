@@ -1,8 +1,10 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
-#define WORD_NUMBER	(4)
+#define WORD_NUMBER	(2)
+#define CLOSE_OF(x)	((x==40) ? x+1 : x+2)
 
 // returns zero on success, returns -1 on error.
 int str_copy(char *dest, const char *src) 
@@ -82,7 +84,7 @@ void parse_parm(const char* arguments, int argument_number, char** output)
 		else 
 		{
 			tmp = ptr;
-			while(*tmp != 44)
+			while((*tmp != 44) && (*tmp != 0))
 			{
 				word_count++;
 				tmp++;
@@ -123,6 +125,52 @@ char* char_escape(char* input)
 }
 
 
+bool verify_nesting(char* brackets, int size)
+{
+	char arr[size];
+	int index=-1;
+	while(*brackets != 0)
+	{
+		if((*brackets != 40) && (*brackets != 41)
+		&& (*brackets != 60) && (*brackets != 62)
+		&& (*brackets != 91) && (*brackets != 93)
+		&& (*brackets != 123) && (*brackets != 125))
+		{
+			printf("\n***Character not recognized*** as %d\n", *brackets);
+			return false;
+		}
+		else
+		{
+			if((*brackets == 40) || (*brackets == 60)
+			|| (*brackets == 91) || (*brackets == 123))
+			{
+				arr[++index] = *brackets;
+			}
+			else
+			{
+				if(*brackets == CLOSE_OF(arr[index]))
+				{
+					index--;
+				}
+				else
+				{
+					return false;
+				}
+			}
+		}
+		brackets++;
+	}
+
+	if(index == -1)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 int main() 
 {
 	char s1[] = "hello";
@@ -144,6 +192,9 @@ int main()
 
 	char* s5 = "<hello> world";
 	printf("\nEscaped string is %s\n", char_escape(s5));
+
+	char* brackets = "<{[()<>]}>";
+	verify_nesting(brackets, sizeof(brackets)) ? printf("\nGiven string is properly nested\n") : printf("\nGiven string is improperly nested\n");
 
 	return 0;
 }
