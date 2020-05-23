@@ -61,6 +61,12 @@ Node* create_list(int num_nodes, int* array)
 }
 
 
+void free_list(Node* head)
+{
+
+}
+
+
 /**
  * @brief creates a copy of linked list
  *

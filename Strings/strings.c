@@ -125,6 +125,15 @@ char* char_escape(char* input)
 }
 
 
+/**
+ * @brief checks if a string of brackets is properly nested. Eg. - {[()<>]} is correct
+ * {[(<>])} is wrong
+ *
+ * @param brackets string of brackets
+ * @param size length of string of brackets
+ *
+ * @return true is properly nested, false otherwise
+ */
 bool verify_nesting(char* brackets, int size)
 {
 	char arr[size];

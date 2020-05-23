@@ -168,3 +168,45 @@ int findMiddle(Node* head)
 	}
 	return slow->data;
 }
+
+
+Node* merge_two_sorted(Node* l1, Node* l2)
+{
+	if(l1 == NULL || l2 == NULL)
+	{
+		if(l1 == NULL && l2 == NULL)
+		{
+			return NULL;
+		}
+		return l2 == NULL ? l1:l2;
+	}
+	Node* temp = NULL, *itr1 = l1, *itr2 = l2;
+	itr1 = l1->next;
+	itr2 = l2->next;
+
+	while(itr1 != NULL && itr2 != NULL)
+	{
+		if(itr1->data <= itr2->data)
+		{
+			while((itr1->next != NULL) && (itr1->next->data <= itr2->data))
+			{
+				itr1 = itr1->next;
+			}
+			temp = itr1->next;
+			itr1->next = itr2;
+			itr1 = temp;
+		}
+		else
+		{
+			while((itr2->next != NULL) && (itr2->next->data <= itr1->data))
+			{
+				itr2 = itr2->next;
+			}
+			temp = itr2->next;
+			itr2->next = itr1;
+			itr2 = temp;
+		}
+	}
+	printf("\nTwo sorted Linked Lists merged\n");
+	return l1->data <= l2->data ? l1:l2;
+}

@@ -88,5 +88,44 @@ int main()
 	}
 	printf("\nMiddle node of Linked List has value: %d\n", middle);
 
+
+	int* sort_list1 = NULL;
+	int sort_nodes1 = read_input(&sort_list1, sort_list1_txt);
+	if(sort_nodes1 < 1)
+	{
+		cerror("read_input failed; file read has no contents")
+	}
+
+	Node* list1 = create_list(sort_nodes1, sort_list1);
+	if(list1 == NULL)
+	{
+		cerror("create_list failed; list1_head is NULL");
+	}
+	printf("\nList read from 'sorted1.txt' is \n");
+	print_list(list1);
+
+	int* sort_list2 = NULL;
+	int sort_nodes2 = read_input(&sort_list2, sort_list2_txt);
+	if(sort_nodes2 < 1)
+	{
+		cerror("read_input failed; file read has no contents")
+	}
+
+	Node* list2 = create_list(sort_nodes2, sort_list2);
+	if(list2 == NULL)
+	{
+		cerror("create_list failed; list2_head is NULL");
+	}
+	printf("\nList read from 'sorted2.txt' is \n");
+	print_list(list2);
+
+	Node* merge_sorted_head = merge_two_sorted(list1, list2);
+	if(merge_sorted_head == NULL)
+	{
+		cerror("merge_two_sorted failed; merge_sorted_head is NULL");
+	}
+	print_list(merge_sorted_head);
+
+
 	return 0;
 }

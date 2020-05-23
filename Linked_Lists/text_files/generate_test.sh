@@ -11,7 +11,8 @@ get_seeded_random()
 
 if [ $# -eq 3 ] 
 then
-	shuf -i1-$1 -n$2 --random-source=<(get_seeded_random $3) > init_list.txt 
+#	shuf -i1-$1 -n$2 --random-source=<(get_seeded_random $3) > init_list.txt 
+	shuf -i1-$1 -n$2 --random-source=<(get_seeded_random $3) > sorted.txt 
 else 
 	echo Usage: ./generate_test.sh upper_interval numbers_in_interval random_seed
 fi
