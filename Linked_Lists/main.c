@@ -135,12 +135,12 @@ int main()
 /**/
 
 /*Find array of next larger nodes of Merged sorted linked list*/
-	int* retArray = NULL;
+	int *retArray = NULL, *retSize = (int *)malloc(sizeof(int));
 	printf("\n");
 	print_list(merge_sorted_head);
-	retArray = nextLargerNodes(merge_sorted_head, retArray);
+	retArray = nextLargerNodes(merge_sorted_head, retSize);
 	printf("Array of Next Larger Nodes is: [");
-	for(int i=0; i<(sort_nodes1 + sort_nodes2); i++)
+	for(int i=0; i<*retSize; i++)
 	{
 		printf("%d ", retArray[i]);
 	}

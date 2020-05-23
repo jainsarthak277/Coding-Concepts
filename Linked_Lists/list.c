@@ -223,7 +223,8 @@ int* nextLargerNodes(Node *head, int *returnSize)
 	}
 	temp = head->next;
 	Node* itr = temp;
-	returnSize = (int *)malloc(size*sizeof(int));
+	int *answer = (int *)malloc(size*sizeof(int));
+	*returnSize = size;
 
 	while(temp != NULL)
 	{
@@ -233,18 +234,17 @@ int* nextLargerNodes(Node *head, int *returnSize)
 		}
 		if(itr == NULL)
 		{
-			*returnSize = 0;
+			*answer = 0;
 		}
 		else
 		{
-			*returnSize = itr->data;
+			*answer = itr->data;
 		}
 
-		returnSize++;
+		answer++;
 		temp = temp->next;
 		itr = temp;
 	}
-	returnSize -= size;
-
-	return returnSize;
+	answer -= size;
+	return answer;
 }
