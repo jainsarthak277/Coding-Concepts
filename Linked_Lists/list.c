@@ -210,3 +210,41 @@ Node* merge_two_sorted(Node* l1, Node* l2)
 	printf("\nTwo sorted Linked Lists merged\n");
 	return l1->data <= l2->data ? l1:l2;
 }
+
+
+int* nextLargerNodes(Node *head, int *returnSize)
+{
+	Node* temp = head->next;
+	int size=0;
+	while(temp != NULL)
+	{
+		size++;
+		temp = temp->next;
+	}
+	temp = head->next;
+	Node* itr = temp;
+	returnSize = (int *)malloc(size*sizeof(int));
+
+	while(temp != NULL)
+	{
+		while((itr != NULL) && (itr->data <= temp->data))
+		{
+			itr = itr->next;
+		}
+		if(itr == NULL)
+		{
+			*returnSize = 0;
+		}
+		else
+		{
+			*returnSize = itr->data;
+		}
+
+		returnSize++;
+		temp = temp->next;
+		itr = temp;
+	}
+	returnSize -= size;
+
+	return returnSize;
+}

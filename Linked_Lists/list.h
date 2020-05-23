@@ -33,3 +33,4 @@ Node* merge_alternate(Node*, Node*);
 int removeNodes(Node**, int);
 int findMiddle(Node*);
 Node* merge_two_sorted(Node*, Node*);
+int* nextLargerNodes(Node*, int*);

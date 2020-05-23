@@ -2,6 +2,7 @@
 
 int main()
 {
+/*Read Input and create linked list*/
 	int* list_data = NULL;
 	int num_nodes = read_input(&list_data, init_list_txt);
 	if(num_nodes < 1)
@@ -15,8 +16,9 @@ int main()
 		cerror("create_list failed; head is NULL");
 	}
 	print_list(head);
+/**/
 
-
+/*Copy list into a new one and reverse copied list*/
 	Node* head_rev = copy_list(head, num_nodes);
 	if(head_rev == NULL)
 	{
@@ -28,8 +30,9 @@ int main()
 		cerror("reverse_list failed; head is NULL");
 	}
 	print_list(head_rev);
+/**/
 
-
+/*Copy original list into a new one, and convert to the order of odd-even*/
 	Node* head_odd_even = copy_list(head, num_nodes);
 	if(head_odd_even == NULL)
 	{
@@ -41,8 +44,9 @@ int main()
 		cerror("convert_odd_even failed; head is NULL");
 	}
 	print_list(head_odd_even);
+/**/
 
-
+/*Copy original list and reversed list into new lists, and merge both lists alternately*/
 	Node* head_A = copy_list(head, num_nodes);
 	Node* head_B = copy_list(head_rev, num_nodes);
 	if((head_A == NULL) || (head_B == NULL))
@@ -55,8 +59,9 @@ int main()
 		cerror("alternate merge failed; head is NULL");
 	}
 	print_list(head_merge);
+/**/
 
-
+/*Read input list from remove_list.txt and remove all nodes with value greater than REMOVAL_VALUE*/
 	int* remove_list_data = NULL;
 	int remove_num_nodes = read_input(&remove_list_data, remove_list_txt);
 	if(remove_num_nodes < 1)
@@ -79,16 +84,18 @@ int main()
 	}
 	printf("%d nodes with value greater than %d removed\n", remove_num_nodes, REMOVAL_VALUE);
 	print_list(remove_head);
+/**/
 
-
+/*Find middle node of original linked list*/
 	int middle = findMiddle(head);
 	if(middle == -1)
 	{
 		cerror("findMiddle failed; head is NULL");
 	}
 	printf("\nMiddle node of Linked List has value: %d\n", middle);
+/**/
 
-
+/*Read input from sorted1.txt and sorted2.txt, merge the two sorted linked lists.*/
 	int* sort_list1 = NULL;
 	int sort_nodes1 = read_input(&sort_list1, sort_list1_txt);
 	if(sort_nodes1 < 1)
@@ -125,7 +132,20 @@ int main()
 		cerror("merge_two_sorted failed; merge_sorted_head is NULL");
 	}
 	print_list(merge_sorted_head);
+/**/
 
+/*Find array of next larger nodes of Merged sorted linked list*/
+	int* retArray = NULL;
+	printf("\n");
+	print_list(merge_sorted_head);
+	retArray = nextLargerNodes(merge_sorted_head, retArray);
+	printf("Array of Next Larger Nodes is: [");
+	for(int i=0; i<(sort_nodes1 + sort_nodes2); i++)
+	{
+		printf("%d ", retArray[i]);
+	}
+	printf("]\n");
+/**/
 
 	return 0;
 }
