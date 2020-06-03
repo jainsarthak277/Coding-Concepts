@@ -63,7 +63,13 @@ Node* create_list(int num_nodes, int* array)
 
 void free_list(Node* head)
 {
-
+	Node *delete = head, *next = head;
+	while(next != NULL)
+	{
+		next = delete->next;
+		free(delete);
+		delete = next;
+	}
 }
 
 

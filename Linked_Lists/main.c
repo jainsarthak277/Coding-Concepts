@@ -147,5 +147,7 @@ int main()
 	printf("]\n");
 /**/
 
+	free_list(head_rev);
+
 	return 0;
 }
